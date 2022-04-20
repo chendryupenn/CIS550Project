@@ -7,12 +7,12 @@ import {
 } from 'react-router-dom';
 
 import HomePage from './pages/HomePage';
-import MoviesPage from './pages/MoviessPage';
+import MoviesPage from './pages/MoviesPage';
 import 'antd/dist/antd.css';
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "shards-ui/dist/css/shards.min.css"
-import MoviesPage from './pages/MoviesPage';
+
 
 ReactDOM.render(
   <div>
@@ -26,7 +26,7 @@ ReactDOM.render(
         <Route exact
 							path="/movies"
 							render={() => (
-								<MoviessPage />
+								<MoviesPage />
 							)}/>
         <Route exact
 							path="/posters"
