@@ -29,25 +29,9 @@ const getTitle = async (title) => {
     return res.json()
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 export {
-    getAllMatches,
-    getAllPlayers,
-    getMatch,
-    getPlayer,
-    getMatchSearch,
-    getPlayerSearch
+    getAllMovies,
+    getAllPosters,
+    getMovie,
+    getTitle
 }
