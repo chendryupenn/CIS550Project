@@ -136,8 +136,9 @@ async function new_top_rated(req, res) {
 async function top_rated_by_demographics(req, res) {
     const Gender = req.query.Gender ? req.query.Gender : 'NA'
     const Age = parseInt(req.query.Age ? req.query.Age : '0');   
+    
     if (Gender == 'NA' && Age == 0) {
-        connection.query(`SELECT M.imdb_id, title, year, genre, duration, language, R.weighted_avg_vote as rating FROM Movies M JOIN Ratings R ON M.imdb_id = R.imdb_id ORDER BY rating DESC;`, 
+        connection.query(`SELECT M.imdb_id, title, year, genre, duration, language, R.weighted_avg_vote as rating FROM Movies M JOIN Ratings R ON M.imdb_id = R.imdb_id ORDER BY rating DESC`, 
         function (error, results, fields) {
             if (error) {
                 res.json({results: ""})
@@ -146,7 +147,7 @@ async function top_rated_by_demographics(req, res) {
             }
         });
     } else if (Gender == 'F' && Age == 0) {
-        connection.query(`SELECT M.imdb_id, title, year, genre, duration, language, R.females_allages_avg_vote as rating FROM Movies M JOIN Ratings R ON M.imdb_id = R.imdb_id ORDER BY rating DESC;`, 
+        connection.query(`SELECT M.imdb_id, title, year, genre, duration, language, R.females_allages_avg_vote as rating FROM Movies M JOIN Ratings R ON M.imdb_id = R.imdb_id ORDER BY rating DESC`, 
         function (error, results, fields) {
             if (error) {
                 res.json({results: ""})
@@ -155,7 +156,7 @@ async function top_rated_by_demographics(req, res) {
             }
         });
     } else if (Gender == 'M' && Age == 0) {
-        connection.query(`SELECT M.imdb_id, title, year, genre, duration, language, R.males_allages_avg_vote as rating FROM Movies M JOIN Ratings R ON M.imdb_id = R.imdb_id ORDER BY rating DESC;`, 
+        connection.query(`SELECT M.imdb_id, title, year, genre, duration, language, R.males_allages_avg_vote as rating FROM Movies M JOIN Ratings R ON M.imdb_id = R.imdb_id ORDER BY rating DESC`, 
         function (error, results, fields) {
             if (error) {
                 res.json({results: ""})
@@ -163,8 +164,8 @@ async function top_rated_by_demographics(req, res) {
                 res.json({ results: results })
             }
         });
-    } else if (Gender == 'NA' && 0 < Age < 18) {
-        connection.query(`SELECT M.imdb_id, title, year, genre, duration, language, R.allgender_0age_avg_vote as rating FROM Movies M JOIN Ratings R ON M.imdb_id = R.imdb_id ORDER BY rating DESC;`, 
+    } else if (Gender == 'NA' && (Age > 0 && Age < 18)) {
+        connection.query(`SELECT M.imdb_id, title, year, genre, duration, language, R.allgender_0age_avg_vote as rating FROM Movies M JOIN Ratings R ON M.imdb_id = R.imdb_id ORDER BY rating DESC`, 
         function (error, results, fields) {
             if (error) {
                 res.json({results: ""})
@@ -172,8 +173,8 @@ async function top_rated_by_demographics(req, res) {
                 res.json({ results: results })
             }
         });
-    } else if (Gender == 'NA' && 18 <= Age < 30) {
-        connection.query(`SELECT M.imdb_id, title, year, genre, duration, language, R.allgenders_18age_avg_vote as rating FROM Movies M JOIN Ratings R ON M.imdb_id = R.imdb_id ORDER BY rating DESC;`, 
+    } else if (Gender == 'NA' && (Age >= 18 && Age < 30)) {
+        connection.query(`SELECT M.imdb_id, title, year, genre, duration, language, R.allgenders_18age_avg_vote as rating FROM Movies M JOIN Ratings R ON M.imdb_id = R.imdb_id ORDER BY rating DESC`, 
         function (error, results, fields) {
             if (error) {
                 res.json({results: ""})
@@ -181,8 +182,8 @@ async function top_rated_by_demographics(req, res) {
                 res.json({ results: results })
             }
         });
-    } else if (Gender == 'NA' && 30 <= Age < 45) {
-        connection.query(`SELECT M.imdb_id, title, year, genre, duration, language, R.allgenders_30age_avg_vote as rating FROM Movies M JOIN Ratings R ON M.imdb_id = R.imdb_id ORDER BY rating DESC;`, 
+    } else if (Gender == 'NA' && (Age >= 30 && Age < 45)) {
+        connection.query(`SELECT M.imdb_id, title, year, genre, duration, language, R.allgenders_30age_avg_vote as rating FROM Movies M JOIN Ratings R ON M.imdb_id = R.imdb_id ORDER BY rating DESC`, 
         function (error, results, fields) {
             if (error) {
                 res.json({results: ""})
@@ -191,7 +192,7 @@ async function top_rated_by_demographics(req, res) {
             }
         });
     } else if (Gender == 'NA' && Age >= 45) {
-        connection.query(`SELECT M.imdb_id, title, year, genre, duration, language, R.allgenders_45age_avg_vote as rating FROM Movies M JOIN Ratings R ON M.imdb_id = R.imdb_id ORDER BY rating DESC;`, 
+        connection.query(`SELECT M.imdb_id, title, year, genre, duration, language, R.allgenders_45age_avg_vote as rating FROM Movies M JOIN Ratings R ON M.imdb_id = R.imdb_id ORDER BY rating DESC`, 
         function (error, results, fields) {
             if (error) {
                 res.json({results: ""})
@@ -199,8 +200,8 @@ async function top_rated_by_demographics(req, res) {
                 res.json({ results: results })
             }
         });
-    } else if (Gender == 'F' && 0 < Age < 18) {
-        connection.query(`SELECT M.imdb_id, title, year, genre, duration, language, R.females_0age_avg_vote as rating FROM Movies M JOIN Ratings R ON M.imdb_id = R.imdb_id ORDER BY rating DESC;`, 
+    } else if (Gender == 'F' && (Age > 0 && Age < 18)) {
+        connection.query(`SELECT M.imdb_id, title, year, genre, duration, language, R.females_0age_avg_vote as rating FROM Movies M JOIN Ratings R ON M.imdb_id = R.imdb_id ORDER BY rating DESC`, 
         function (error, results, fields) {
             if (error) {
                 res.json({results: ""})
@@ -208,8 +209,8 @@ async function top_rated_by_demographics(req, res) {
                 res.json({ results: results })
             }
         });
-    } else if (Gender == 'F' && 18 <= Age < 30) {
-        connection.query(`SELECT M.imdb_id, title, year, genre, duration, language, R.females_18age_avg_vote as rating FROM Movies M JOIN Ratings R ON M.imdb_id = R.imdb_id ORDER BY rating DESC;`, 
+    } else if (Gender == 'F' && (Age >= 18 && Age < 30)) {
+        connection.query(`SELECT M.imdb_id, title, year, genre, duration, language, R.females_18age_avg_vote as rating FROM Movies M JOIN Ratings R ON M.imdb_id = R.imdb_id ORDER BY rating DESC`, 
         function (error, results, fields) {
             if (error) {
                 res.json({results: ""})
@@ -217,8 +218,8 @@ async function top_rated_by_demographics(req, res) {
                 res.json({ results: results })
             }
         });
-    } else if (Gender == 'F' && 30 <= Age < 45) {
-        connection.query(`SELECT M.imdb_id, title, year, genre, duration, language, R.females_30age_avg_vote as rating FROM Movies M JOIN Ratings R ON M.imdb_id = R.imdb_id ORDER BY rating DESC;`, 
+    } else if (Gender == 'F' && (Age >= 30 && Age < 45)) {
+        connection.query(`SELECT M.imdb_id, title, year, genre, duration, language, R.females_30age_avg_vote as rating FROM Movies M JOIN Ratings R ON M.imdb_id = R.imdb_id ORDER BY rating DESC`, 
         function (error, results, fields) {
             if (error) {
                 res.json({results: ""})
@@ -227,7 +228,7 @@ async function top_rated_by_demographics(req, res) {
             }
         });
     } else if (Gender == 'F' && Age >= 45) {
-        connection.query(`SELECT M.imdb_id, title, year, genre, duration, language, R.females_45age_avg_vote as rating FROM Movies M JOIN Ratings R ON M.imdb_id = R.imdb_id ORDER BY rating DESC;`, 
+        connection.query(`SELECT M.imdb_id, title, year, genre, duration, language, R.females_45age_avg_vote as rating FROM Movies M JOIN Ratings R ON M.imdb_id = R.imdb_id ORDER BY rating DESC`, 
         function (error, results, fields) {
             if (error) {
                 res.json({results: ""})
@@ -235,8 +236,8 @@ async function top_rated_by_demographics(req, res) {
                 res.json({ results: results })
             }
         });
-    } else if (Gender == 'M' && 0 < Age < 18) {
-        connection.query(`SELECT M.imdb_id, title, year, genre, duration, language, R.males_0age_avg_vote as rating FROM Movies M JOIN Ratings R ON M.imdb_id = R.imdb_id ORDER BY rating DESC;`, 
+    } else if (Gender == 'M' && (Age > 0 && Age < 18)) {
+        connection.query(`SELECT M.imdb_id, title, year, genre, duration, language, R.males_0age_avg_vote as rating FROM Movies M JOIN Ratings R ON M.imdb_id = R.imdb_id ORDER BY rating DESC`, 
         function (error, results, fields) {
             if (error) {
                 res.json({results: ""})
@@ -244,8 +245,8 @@ async function top_rated_by_demographics(req, res) {
                 res.json({ results: results })
             }
         });
-    } else if (Gender == 'M' && 18 <= Age < 30) {
-        connection.query(`SELECT M.imdb_id, title, year, genre, duration, language, R.males_18age_avg_vote as rating FROM Movies M JOIN Ratings R ON M.imdb_id = R.imdb_id ORDER BY rating DESC;`, 
+    } else if (Gender == 'M' && (Age >= 18 && Age < 30)) {
+        connection.query(`SELECT M.imdb_id, title, year, genre, duration, language, R.males_18age_avg_vote as rating FROM Movies M JOIN Ratings R ON M.imdb_id = R.imdb_id ORDER BY rating DESC`, 
         function (error, results, fields) {
             if (error) {
                 res.json({results: ""})
@@ -253,8 +254,8 @@ async function top_rated_by_demographics(req, res) {
                 res.json({ results: results })
             }
         });
-    } else if (Gender == 'M' && 30 <= Age < 45) {
-        connection.query(`SELECT M.imdb_id, title, year, genre, duration, language, R.males_30age_avg_vote as rating FROM Movies M JOIN Ratings R ON M.imdb_id = R.imdb_id ORDER BY rating DESC;`, 
+    } else if (Gender == 'M' && (Age >= 30 && Age < 45)) {
+        connection.query(`SELECT M.imdb_id, title, year, genre, duration, language, R.males_30age_avg_vote as rating FROM Movies M JOIN Ratings R ON M.imdb_id = R.imdb_id ORDER BY rating DESC`, 
         function (error, results, fields) {
             if (error) {
                 res.json({results: ""})
@@ -263,7 +264,7 @@ async function top_rated_by_demographics(req, res) {
             }
         });
     } else if (Gender == 'M' && Age >= 45) {
-        connection.query(`SELECT M.imdb_id, title, year, genre, duration, language, R.males_45age_avg_vote as rating FROM Movies M JOIN Ratings R ON M.imdb_id = R.imdb_id ORDER BY rating DESC;`, 
+        connection.query(`SELECT M.imdb_id, title, year, genre, duration, language, R.males_45age_avg_vote as rating FROM Movies M JOIN Ratings R ON M.imdb_id = R.imdb_id ORDER BY rating DESC`, 
         function (error, results, fields) {
             if (error) {
                 res.json({results: ""})
@@ -274,14 +275,13 @@ async function top_rated_by_demographics(req, res) {
     }
 }
 
-// Route 8
-// Add to watchlist table (needs more work)
+
 // Route 8
 // Add to watchlist table 
 async function add_to_watchlist(req, res) {
-	const movieID = req.query.id;
-const movieTitle= req.query.title;
-    connection.query(`INSERT INTO Watchlist (imdb_id, title)VALUES ('movieID', 'movieTitle');`, 
+    const movieID = req.query.id;
+    const movieTitle= req.query.title;
+    connection.query(`INSERT INTO Watchlist (imdb_id, title) VALUES ('${movieID}', '${movieTitle}');`, 
     function (error, results, fields) {
         if (error) {
             console.log(error)
@@ -290,6 +290,7 @@ const movieTitle= req.query.title;
             res.json({ results: results })
         }
     });
+}
 }
 
 // Route 9
