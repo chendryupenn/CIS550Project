@@ -24,16 +24,16 @@ app.get('/moviesByGenre', routes.top_movie_by_genre)
 app.get('/moviesByDirector', routes.top_movie_by_director)
 
 // Route 5 - register as GET 
-app.get('/movieID', routes.movie_id)
+app.get('/movie', routes.movie_id)
 
 // Route 6 - register as GET 
 app.get('/newTopRated', routes.new_top_rated)
 
 // Route 7 - register as GET 
-app.get('/topDemographic', routes.top_rated_by_demographics)
+app.get('/movies', routes.top_rated_by_demographics)
 
 // Route 8 - register as POST 
-app.post('/addMovieToWatchlist', routes.add_to_watchlist)
+app.get('/addWatchlist', routes.add_to_watchlist)
 
 // Route 9 - register as GET 
 app.get('/watchlist', routes.watchlist)
