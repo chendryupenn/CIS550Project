@@ -21,6 +21,19 @@ const getMovie = async (id) => {
     return res.json()
 }
 
+const getTopRated = async (Gender, Age) => {
+    var res = await fetch(`http://${config.server_host}:${config.server_port}/movies?Gender=${Gender}&Age=${Age}`, {
+        method: 'GET',
+    })
+    return res.json()
+}
+
+const addToWatchlist = async (id, title) => {
+    var res = await fetch(`http://${config.server_host}:${config.server_port}/addWatchlist?id=${id}&title=${title}`, {
+        method: 'GET',
+    })
+    return res.json()
+}
 
 const getTitle = async (title) => {
     var res = await fetch(`http://${config.server_host}:${config.server_port}/search/movies?Title=${title}`, {
@@ -33,5 +46,7 @@ export {
     getAllMovies,
     getAllPosters,
     getMovie,
+    getTopRated,
+    addToWatchlist,
     getTitle
 }
