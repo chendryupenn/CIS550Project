@@ -101,8 +101,8 @@ async function top_movie_by_director(req, res) {
 // Search by movie ID
 async function movie_id(req, res) {
     const movieID = req.query.id;
-    connection.query(`SELECT M.imdb_id, M.title, M.year, genre, duration, country, language, director, actors, description, R.weighted_avg_vote as rating
-    FROM Movies M JOIN Ratings R ON M.imdb_id = R.imdb_id WHERE M.imdb_id = '${movieID}';`, 
+    connection.query(`SELECT M.imdb_id, M.title, M.year, genre, duration, country, language, director, actors, description, R.weighted_avg_vote as rating,
+    P.poster FROM Movies M JOIN Ratings R ON M.imdb_id = R.imdb_id JOIN Posters P ON M.imdb_id = P.imdb_id WHERE M.imdb_id = '${movieID}';`, 
     function (error, results, fields) {
         if (error) {
             console.log(error)
