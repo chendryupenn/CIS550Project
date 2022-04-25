@@ -145,27 +145,28 @@ class MoviePage extends React.Component {
             };
         }} dataSource={this.state.moviesResults} columns={movieColumns} pagination={{ pageSizeOptions:[5, 10], defaultPageSize: 5, showQuickJumper:true }}/>
                 </div>
-
                 {this.state.selectedMovieDetails ? <div style={{ width: '70vw', margin: '0 auto', marginTop: '2vh' }}>
                     <Card>
-                        <Col flex={2} style={{ textAlign: 'right' }}>
-                        <img src={this.state.selectedMovieDetails.poster} referrerpolicy="no-referrer" alt={null} style={{height:'15vh'}}/></Col>       
                         <CardBody>
                             <CardTitle>{this.state.selectedMovieDetails.title}</CardTitle>
                             <CardSubtitle>{this.state.selectedMovieDetails.year} {this.state.selectedMovieDetails.duration}min {this.state.selectedMovieDetails.country}</CardSubtitle>
+
+                                <div className='image-container d-flex justify-content-start m-3'>
+                                    <img src={this.state.selectedMovieDetails.poster} alt={null} style={{height:'19vh'}}></img>
+                                </div>
+      
                             Rating: <Progress style={{ width: '20vw'}} value={this.state.selectedMovieDetails.rating*10} >{this.state.selectedMovieDetails.rating}</Progress>
                             Language: <h6>{this.state.selectedMovieDetails.language}</h6> 
                             Genre: <h6>{this.state.selectedMovieDetails.genre}</h6> 
                             Director: <h6>{this.state.selectedMovieDetails.director}</h6> 
                             Actors: <h6>{this.state.selectedMovieDetails.actors}</h6> 
                             Description: <h6>{this.state.selectedMovieDetails.description}</h6> 
+         
                             <Button pill theme="danger" onClick={() => this.updateWatchlist(this.state.selectedMovieDetails.imdb_id, this.state.selectedMovieDetails.title)}> Add to Watchlist</Button> 
                         </CardBody>
-                    </Card>
-                    
+                    </Card>                   
                 </div> : null}
                 <Divider />
-
             </div>
         )
     }
