@@ -20,6 +20,9 @@ const RecommendationsPage = () => {
 	};
 	//const responseJson = getRecommendation();
 	//setMovies(responseJson.results);
+	goToMovie = (MovieId) => {
+		window.location = `/movies?id=${MovieId}`;
+	}
 
 	useEffect(() => {
 		getMovieRequest();
@@ -45,4 +48,5 @@ const RecommendationsPage = () => {
 };
 
 export default RecommendationsPage;
+
 
