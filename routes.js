@@ -317,15 +317,12 @@ async function watchlist(req, res) {
 // Display watchlist
 async function recommendation(req, res) {
     connection.query(
-	`SELECT M.imdb_id, title, year, genre, duration, language, Ratings.weighted_avg_vote
-	FROM Movies 
-	FROM Movies M JOIN Ratings R ON M.imdb_id = R.imdb_id 
-	WHERE Movies.director IN (
-		SELECT Movies.director 
-		FROM Watchlist
-		JOIN Movies M on Movies.imdb_id = Watchlist.imdb_id)
-	ORDER BY R.rating DESC 
-	LIMIT 20;`, 
+	`WITH temp (imdb_id) AS 
+        (SELECT imdb_id FROM Movies WHERE Movies.director IN 
+            (SELECT director FROM Watchlist))
+        SELECT *
+        FROM temp JOIN Posters ON temp.imdb_id = Posters.imdb_id
+        LIMIT 20;`, 
     function (error, results, fields) {
         if (error) {
             console.log(error)
