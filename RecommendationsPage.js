@@ -4,8 +4,7 @@ import './App.css';
 import MovieList from './components/MovieList';
 import MovieListHeading from './components/MovieListHeading';
 import config from './config.json';
-import getRecommendation from './fetcher'
-import MenuBar from '../components/MenuBar.js';
+import MenuBar from './components/MenuBar.js';
 const RecommendationsPage = () => {
 	const [movies, setMovies] = useState([]);
 
@@ -15,10 +14,9 @@ const RecommendationsPage = () => {
 		const response = await fetch(url);
 		const responseJson = await response.json();
 		
-		//if (responseJson.results) {
+		
 		setMovies(responseJson.results);
-			
-		//}
+		
 	};
 	//const responseJson = getRecommendation();
 	//setMovies(responseJson.results);
@@ -31,8 +29,8 @@ const RecommendationsPage = () => {
 	
 	return (
 		<div>
+			
 				<MenuBar />
-
 				<div className='container-fluid movie-app'>
 				<div className='row d-flex align-items-center mt-4 mb-4'>
 					<MovieListHeading heading='Recommendations' />
