@@ -20,12 +20,12 @@ class MenuBar extends React.Component {
             </NavItem>
             <NavItem>
               <NavLink active href="/movies">
-                Movies
+                Top Rated
               </NavLink>
             </NavItem>
             <NavItem>
               <NavLink active  href="/posters" >
-                Posters
+                Recommedations
               </NavLink>
             </NavItem>
           </Nav>
