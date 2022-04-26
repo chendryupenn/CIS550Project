@@ -6,21 +6,49 @@ import {
 } from 'antd'
 
 import MenuBar from '../components/MenuBar';
-import {getAllMovies,getAllPosters, getMovie, getTitle } from '../fetcher'
+import {getAllMovies,getAllPosters, getMovie, getTitle, getGenre } from '../fetcher'
 const { Column, ColumnGroup } = Table;
 const { Option } = Select;
 
 
 const movieColumns = [
   {
-    title: 'Title',
-    dataIndex: 'Title',
-    key: 'Title',
+    title: 'title',
+    dataIndex: 'title',
+    key: 'title',
     sorter: (a, b) => a.Title.localeCompare(b.Title),
-    render: (text, row) => <a href={`/movie?id=${row.imdb_id}`}>{text}</a>
+
   },
 
+  {
+    title: 'year',
+    dataIndex: 'year',
+    key: 'year',
+  },
+  {
+    title: 'genre',
+    dataIndex: 'genre',
+    key: 'genre', 
+  },
+  {
+    title: 'duration',
+    dataIndex: 'duration',
+    key: 'duration',
+  },
+  {
+    title: 'language',
+    dataIndex: 'language',
+    key: 'language',
+  },
+  {
+    title: 'rating',
+    dataIndex: 'rating',
+    key: 'rating', 
+  }
+
 ];
+
+
 
 class HomePage extends React.Component {
 
@@ -37,12 +65,29 @@ class HomePage extends React.Component {
 
     this.leagueOnChange = this.leagueOnChange.bind(this)
     this.goToMovie = this.goToMovie.bind(this)
+    this.handleGenreChange = this.handleGenreChange.bind(this)
+    this.randomMovie = this.randomMovie.bind(this)
   }
 
+  
+  randomMovie() {
+    getAllMovies(null, null, '').then(res => {
+      this.setState({ moviesResults: res.results })
+      
+    {/*var randomize = randomMovie[Math.floor(Math.random() * randomMovie.length)]; */}
+
+    })
+  }
+
+    
 
   goToMovie(movieId) {
     window.location = `/movie?id=${movieId}`
   }
+
+  handleGenreChange(event) {
+    this.setState({ genre: event.target.value })
+}
 
   leagueOnChange(value) {
     // TASK 2: this value should be used as a parameter to call getAllMovies in fetcher.js with the parameters page and pageSize set to null
@@ -52,6 +97,11 @@ class HomePage extends React.Component {
     })
   }
 
+  updateGenreResults() {
+    getGenre(this.state.genre).then(res => {
+        this.setState({ moviesResults: res.results })
+    })
+}
   componentDidMount() {
     getAllMovies(null, null, 'D1').then(res => {
       this.setState({ moviesResults: res.results })
@@ -63,7 +113,9 @@ class HomePage extends React.Component {
       this.setState({postersResults : res.results
       });
     })
+
   }
+
 
 
   render() {
@@ -72,11 +124,18 @@ class HomePage extends React.Component {
       <div>
         <MenuBar />
         <div style={{ width: '70vw', margin: '0 auto', marginTop: '5vh' }}>
-          <h3>Movies</h3>
-          <Table dataSource={this.state.postersResults} columns={movieColumns} pagination={{ pageSizeOptions:[5, 10], defaultPageSize: 5, showQuickJumper:true }}/>
+          <h1>WELCOME TO CELEBRATING CINEMA!!!</h1>
+          <h5>Enjoy randomly selecting a movie or having a recommendation provided to you by our amazing team</h5>
+          <h5>Movies to start you off on your cinematic journey</h5>
+        
+         {/*<button onClick={randomize}>Default</button>;*/}
+
+          <Table dataSource={this.state.moviesResults} columns={movieColumns} pagination={{ pageSizeOptions:[5, 10], defaultPageSize: 5, showQuickJumper:true }}/>
         </div>
+
+
         <div style={{ width: '70vw', margin: '0 auto', marginTop: '2vh' }}>
-          <h3>Genre</h3>
+          <h5>What type of movie are you in the mood for? We have them all! </h5>
           <Select defaultValue="Adventure" style={{ width: 120 }} onChange={this.leagueOnChange}>
              {/* TASK 3: Take a look at Dataset Information.md from MS1 and options to the selector*/}
              <Option value="Adventure">Adventure</Option>
@@ -98,25 +157,16 @@ class HomePage extends React.Component {
           
           <Table onRow={(record, rowIndex) => {
     return {
-      onClick: event => {this.goToMovie(record.MovieId)}, // clicking a row takes the user to a detailed view of the match in the /matches page using the MatchId parameter  
+      onClick: event => {this.getGenre(record.MovieId)}, // clicking a row takes the user to a detailed view of the match in the /matches page using the MatchId parameter  
     };
   }} dataSource={this.state.moviesResults} pagination={{ pageSizeOptions:[5, 10], defaultPageSize: 5, showQuickJumper:true }}>
             <ColumnGroup title="Movies">
               {/* TASK 4: correct the title for the 'Home' column and add a similar column for 'Away' team in this ColumnGroup */}
-              <Column title="Movies" dataIndex="Movie" key="Movie" sorter= {(a, b) => a.Movie.localeCompare(b.Movie)}/>
+              <Column title="Movies" dataIndex="title" key="title" sorter= {(a, b) => a.title.localeCompare(b.title)}/>
              {/* <Column title="Movies" dataIndex="Movie" key="Movie" sorter= {(a, b) => a.Movie.localeCompare(b.Movie)}/>*/}
             
-
             </ColumnGroup>
-            <ColumnGroup title="Ratings">
-              {/* 
-              <Column title="Highest Movie Ratings" dataIndex="Highest Movie Rating" key="weighted_average_vote" sorter= {(a, b) => a.weighted_average_vote < b.weighted_average_vote}/> 
-              <Column title="Lowest Movie Ratings" dataIndex="Lowest Movie Rating" key="rating" sorter= {(a, b) => a.rating > b.rating}/> */}
 
-            </ColumnGroup>
-             {/* 
-             <Column title="Date" dataIndex="Date" key="Date" />
-             <Column title="Time" dataIndex="Time" key="Time" /> */}
 
           </Table>
 
@@ -130,4 +180,3 @@ class HomePage extends React.Component {
 }
 
 export default HomePage
-
