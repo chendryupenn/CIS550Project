@@ -159,13 +159,13 @@ class HomePage extends React.Component {
     return {
       onClick: event => {this.getGenre(record.MovieId)}, // clicking a row takes the user to a detailed view of the match in the /matches page using the MatchId parameter  
     };
-  }} dataSource={this.state.moviesResults} pagination={{ pageSizeOptions:[5, 10], defaultPageSize: 5, showQuickJumper:true }}>
-            <ColumnGroup title="Movies">
+  }} dataSource={this.state.moviesResults} columns={movieColumns} pagination={{ pageSizeOptions:[5, 10], defaultPageSize: 5, showQuickJumper:true }}>
+      
               {/* TASK 4: correct the title for the 'Home' column and add a similar column for 'Away' team in this ColumnGroup */}
               <Column title="Movies" dataIndex="title" key="title" sorter= {(a, b) => a.title.localeCompare(b.title)}/>
              {/* <Column title="Movies" dataIndex="Movie" key="Movie" sorter= {(a, b) => a.Movie.localeCompare(b.Movie)}/>*/}
             
-            </ColumnGroup>
+       
 
 
           </Table>
@@ -180,3 +180,5 @@ class HomePage extends React.Component {
 }
 
 export default HomePage
+
+
