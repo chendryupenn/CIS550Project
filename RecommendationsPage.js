@@ -1,32 +1,50 @@
-import React from 'react';
-import MenuBar from '../components/MenuBar';
+import React, { useState, useEffect } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
+import MovieList from './components/MovieList';
+import MovieListHeading from './components/MovieListHeading';
+import config from './config.json';
+import getRecommendation from './fetcher'
+import MenuBar from '../components/MenuBar.js';
+const RecommendationsPage = () => {
+	const [movies, setMovies] = useState([]);
 
-export default class RecommendationsPage extends React.Component{
-	constructor(props){
-		super(props);
+	const getMovieRequest = async () => {
+		const url = `http://${config.server_host}:${config.server_port}/recommendation`;
 
-		this.state = {
-			recommendationList: []
-		}
+		const response = await fetch(url);
+		const responseJson = await response.json();
+		
+		//if (responseJson.results) {
+		setMovies(responseJson.results);
+			
+		//}
+	};
+	//const responseJson = getRecommendation();
+	//setMovies(responseJson.results);
 
-		this.handleClickButton = this.handleClickButton.bind(this);
-	}
+	useEffect(() => {
+		getMovieRequest();
+	}, []);
 
-	handleClickButton(event){
-		getRecommenations().then(res => {
-			this.setState({recommendationList: res.results})
-		})
-	}
+	
+	
+	return (
+		<div>
+				<MenuBar />
 
-	render(){
-		return(
-			<div>
-				<MenuBar/>
-				<button onClick = {this.handleClickButton}>Show Recommendations</button>
-				<ul>
-					{this.state.recommendationList}
-				</ul>
-			</div>
-		)
-	}
-}
+				<div className='container-fluid movie-app'>
+				<div className='row d-flex align-items-center mt-4 mb-4'>
+					<MovieListHeading heading='Recommendations' />
+				</div>
+				<div className='row'>
+					<MovieList movies={movies} />
+				</div>
+				</div>
+		</div>
+		
+	);
+};
+
+export default RecommendationsPage;
+
