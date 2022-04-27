@@ -48,6 +48,13 @@ const getGenre = async (genre) => {
     })
     return res.json()
 }
+const getDirector = async (director) => {
+    var res = await fetch(`http://${config.server_host}:${config.server_port}/moviesByDirector?director=${director}`, {
+        method: 'GET',
+    })
+    return res.json()
+}
+
 
 export {
     getAllMovies,
@@ -55,5 +62,8 @@ export {
     getMovie,
     getTopRated,
     addToWatchlist,
-    getTitle
+    getTitle,
+    getRecommenations,
+    getGenre,
+    getDirector
 }
