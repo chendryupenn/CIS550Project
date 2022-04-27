@@ -42,6 +42,13 @@ const getTitle = async (title) => {
     return res.json()
 }
 
+const getGenre = async (genre) => {
+    var res = await fetch(`http://${config.server_host}:${config.server_port}/moviesByGenre?genre=${genre}`, {
+        method: 'GET',
+    })
+    return res.json()
+}
+
 export {
     getAllMovies,
     getAllPosters,
