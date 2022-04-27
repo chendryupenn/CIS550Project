@@ -80,17 +80,17 @@ async function top_movie_by_genre(req, res) {
 
 //Route 4
 //Top rated movies bye director
-async function top_movie_by_director(req, res) {
-    const movie_by_director = req.query.searchbydirector;
+async function top_movie_by_genre(req, res) {
+    const movie_by_genre = req.query.genre ? req.query.genre : 'Adventure';
     connection.query(
-	`SELECT Movies.title, Ratings.weighted_avg_vote
+	`SELECT Movies.title, Movies.director, Movies.imdb_id, Movies.year, Movies.genre, Movies.duration, Movies.language, R.weighted_avg_vote as rating
 	FROM Movies JOIN Ratings R on Movies.imdb_id = R.imdb_id
-	WHERE Movies.director LIKE '${movie_by_director}'
-	ORDER BY Ratings.weighted_avg_vote DESC;`, 
+	WHERE Movies.genre LIKE '%${movie_by_genre}%'
+	ORDER BY Movies.title;`, 
     function (error, results, fields) {
         if (error) {
             console.log(error)
-            res.json({results: ""})
+            res.json({results: "Error"})
         } else if (results) {
             res.json({ results: results })
         }
