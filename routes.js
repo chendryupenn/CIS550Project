@@ -62,7 +62,7 @@ async function top_movie_by_year(req, res) {
 //Route 3
 //Top rated movies bye genre
 async function top_movie_by_genre(req, res) {
-    const movie_by_genre = req.query.searchbygenre ? req.query.searchbygenre : 'Adventure';
+    const movie_by_genre = req.query.genre ? req.query.genre : 'Adventure';
     connection.query(
 	`SELECT Movies.title, Movies.imdb_id, Movies.year, Movies.genre, Movies.duration, Movies.language, R.weighted_avg_vote as rating
 	FROM Movies JOIN Ratings R on Movies.imdb_id = R.imdb_id
