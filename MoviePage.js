@@ -162,7 +162,7 @@ class MoviePage extends React.Component {
                             Actors: <h6>{this.state.selectedMovieDetails.actors}</h6> 
                             Description: <h6>{this.state.selectedMovieDetails.description}</h6> 
          
-                            <Button pill theme="danger" onClick={() => this.updateWatchlist(this.state.selectedMovieDetails.imdb_id, this.state.selectedMovieDetails.title)}> Add to Watchlist</Button> 
+                            <Button pill theme="danger" onClick={() => this.updateWatchlist(this.state.selectedMovieDetails.imdb_id, this.state.selectedMovieDetails.title)}> Like it!</Button> 
                         </CardBody>
                     </Card>                   
                 </div> : null}
