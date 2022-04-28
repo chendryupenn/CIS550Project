@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Form, FormSelect, FormGroup, Button, Card, CardBody, CardTitle, CardSubtitle, CardImg, Progress } from "shards-react";
 import {
   Table,
@@ -11,8 +11,9 @@ import {
 
 import MenuBar from '../components/MenuBar';
 import App from '../components/App.css';
-import {getAllMovies, getMovie, getTitle, getGenre } from '../fetcher'
+import {getAllMovies, getMovie, getGenre, getDirector } from '../fetcher'
 import background from "../movieReel.jpg";
+import SearchBar from "../components/SearchBar";
 
 const { Column, ColumnGroup } = Table;
 const { Option } = Select;
@@ -24,6 +25,13 @@ const movieColumns = [
     dataIndex: 'title',
     key: 'title',
     sorter: (a, b) => a.title.localeCompare(b.title),
+
+  },
+  {
+    title: 'director',
+    dataIndex: 'director',
+    key: 'director',
+    sorter: (a, b) => a.director.localeCompare(b.director),
 
   },
 
@@ -65,9 +73,11 @@ class HomePage extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      moviessResults: [],
+      moviesResults: [],
       genreResults: [],
       genre: "",
+      director : "",
+      directorResults :[],
       moviesRandom: [],
       moviesSize: 40000,
       moviesPageNumber: 1,
@@ -82,6 +92,8 @@ class HomePage extends React.Component {
     this.handleGenreChange = this.handleGenreChange.bind(this)
     this.updateSearchResults = this.updateSearchResults.bind(this)
     this.randomize = this.randomize.bind(this)
+    this.handleDirectorChange = this.handleDirectorChange.bind(this)
+    this.updateDirectorResults = this.updateDirectorResults.bind(this)
   }
 
   goToMovie(MovieId) {
@@ -95,6 +107,15 @@ class HomePage extends React.Component {
     })
 }
     
+/*function radnomizer(props){
+  const [random, setRandom] = this.setState(this.state.value);
+  getAllMovies(null, null).then(props => {
+    this.setState({ moviesResults: props.results })
+    var random = Math.floor(Math.random() * 40)
+  
+  })
+}   */       
+
 
   handleGenreChange(event) {
     this.setState({ genre: event.target.value })
@@ -104,6 +125,17 @@ class HomePage extends React.Component {
     getGenre(this.state.genre).then(res => {
         this.setState({ genreResults: res.results })
     })
+}
+
+handleDirectorChange(event) {
+  this.setState({ director: event.target.value })
+}
+
+updateDirectorResults(event) {
+  getDirector(this.state.director).then(res => {
+      this.setState({ directorResults: res.results })
+  })
+  event.preventDefault();
 }
 
   componentDidMount() {
@@ -120,6 +152,11 @@ class HomePage extends React.Component {
       this.setState({ genreResults: res.results })
   })
 
+  getDirector('Tarantino').then(res => {
+    console.log(res.results)
+    this.setState({ directorResults: res.results })
+})
+
   getAllMovies(this.state.selectedMovieId).then(res => { 
     this.setState({ moviesRandom: res.results })
 })
@@ -132,7 +169,7 @@ class HomePage extends React.Component {
       <div>
         <MenuBar />
 
-        <div style={{ width: '70vw', margin: '0 auto', marginTop: '5vh' }}>
+        <div style={{ width: '70vw', margin: '0 auto', marginTop: '5vh', textAlign: 'center' }}>
           <h1>WELCOME TO CELEBRATING CINEMA!!!</h1>
           <h5>Enjoy randomly selecting a movie or having a recommendation provided to you by our amazing team</h5>
           <h5>Movies to start you off on your cinematic journey</h5>
@@ -141,19 +178,18 @@ class HomePage extends React.Component {
       onClick: event => {this.goToMovie(record.imdb_id)}, // clicking a row takes the user to a detailed view of the match in the /matches page using the MatchId parameter  
     };
   }} dataSource={this.state.moviesResults} columns={movieColumns} pagination={{ pageSizeOptions:[5, 10], defaultPageSize: 5, showQuickJumper:true }}>
-                  {/* TASK 4: correct the title for the 'Home' column and add a similar column for 'Away' team in this ColumnGroup */}
-                  <Column title="Movies" dataIndex="title" key="title" sorter= {(a, b) => a.title.localeCompare(b.title)}/>
-             {/* <Column title="Movies" dataIndex="Movie" key="Movie" sorter= {(a, b) => a.Movie.localeCompare(b.Movie)}/>*/}
-            
-       
 
+                  <Column title="Movies" dataIndex="title" key="title" sorter= {(a, b) => a.title.localeCompare(b.title)}/>
 
           </Table>
          {/*} <Table dataSource={this.state.moviesResults} columns={movieColumns} pagination={{ pageSizeOptions:[5, 10], defaultPageSize: 5, showQuickJumper:true }}/></Table> */}
           
         </div>
 
-        <div style={{ width: '70vw', margin: '0 auto', marginTop: '5vh' }}>
+
+        <div style={{ width: '70vw', margin: '0 auto', marginTop: '5vh', textAlign: 'center'}}>
+        <h5>In the mood for something?</h5>
+          <h5>Search by Genre!</h5>
                     <Form style={{ width: '80vw', margin: '0 auto', marginTop: '5vh' }}>
                     <Row>
                         <Col flex={2}><FormGroup style={{ width: '30vw', margin: '0 auto' }}>
@@ -189,23 +225,41 @@ class HomePage extends React.Component {
         }} dataSource={this.state.genreResults} columns={movieColumns} pagination={{ pageSizeOptions:[5, 10, 20], defaultPageSize: 5, showQuickJumper:true }}/>
                 </div>
     
-        <div style={{ width: '70vw', margin: '0 auto', marginTop: '5vh',textAlign: 'center' }}>
-          <button onClick={this.randomize()}>Randomly Pick a Movie For Me</button>;
+       {/*  <div style={{ width: '70vw', margin: '0 auto', marginTop: '5vh',textAlign: 'center' }}>
+         <button onClick={this.randomize()}>Randomly Pick a Movie For Me</button>;
          
                     
           <Table dataSource={this.state.moviesRandom} columns={movieColumns} pagination={{ pageSizeOptions:[1], defaultPageSize: 1, showQuickJumper:false }}/>
           
 
+        </div>*/}
+
+
+
+        <div style={{ width: '70vw', margin: '0 auto', marginTop: '5vh',textAlign: 'center' }}>
+        <h5>Do you have a favorite Director? </h5>
+        <h5>See what other Movies they have avavilable!</h5>
+        <form onSubmit = {this.updateDirectorResults}>
+          <label>
+         <input placeholder='Search Directors' value = {this.state.director} onChange={this.handleDirectorChange} />
+         </label>
+         <input type="submit" value ="Submit" />
+         </form>
+          <Table onRow={(record, rowIndex) => {
+          return {
+            onClick: event => {this.goToMovie(record.name)}, 
+            };
+        }} dataSource={this.state.directorResults} columns={movieColumns} pagination={{ pageSizeOptions:[5, 10, 20], defaultPageSize: 5, showQuickJumper:true }}/>
         </div>
 
-
+      <div style={{ width: '70vw', margin: '0 auto', marginTop: '5vh',textAlign: 'center' }}>
+      </div>
 
 
         <div style={{width: '100vw', marginTop: '6vh', backgroundRepeat: "no-repeat", backgroundSize: '100% 200%', textAlign: 'center', margin: '0 auto', flex: '1', justifyContent: 'center', alignItems: 'center', paddingTop: '50',  backgroundImage: `url(${background})` }}>
         <h12>Enjoy the entertainment</h12>
        </div>
 
-    
 
       </div>
     )
@@ -214,4 +268,3 @@ class HomePage extends React.Component {
 }
 
 export default HomePage
-
