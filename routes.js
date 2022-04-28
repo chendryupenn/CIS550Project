@@ -79,23 +79,24 @@ async function top_movie_by_genre(req, res) {
 }
 
 //Route 4
-//Top rated movies bye director
-async function top_movie_by_genre(req, res) {
-    const movie_by_genre = req.query.genre ? req.query.genre : 'Adventure';
+//Top rated movies by director
+async function top_movie_by_director(req, res) {
+    const movie_by_director = req.query.director ? req.query.director : 'Spielberg';
     connection.query(
-	`SELECT Movies.title, Movies.director, Movies.imdb_id, Movies.year, Movies.genre, Movies.duration, Movies.language, R.weighted_avg_vote as rating
-	FROM Movies JOIN Ratings R on Movies.imdb_id = R.imdb_id
-	WHERE Movies.genre LIKE '%${movie_by_genre}%'
-	ORDER BY Movies.title;`, 
+	`SELECT M.imdb_id, M.year, M.title, M.director, M.genre, M.duration, M.language, R.weighted_avg_vote as rating
+	FROM Movies M JOIN Ratings R on M.imdb_id = R.imdb_id
+	WHERE M.director LIKE '%${movie_by_director}%'
+	ORDER BY M.director;`, 
     function (error, results, fields) {
         if (error) {
             console.log(error)
-            res.json({results: "Error"})
+            res.json({results: ""})
         } else if (results) {
             res.json({ results: results })
         }
     });
 }
+ 
 
 // Route 5 (handler)
 // Search by movie ID
