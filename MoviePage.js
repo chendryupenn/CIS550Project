@@ -1,7 +1,6 @@
 import React from 'react';
 import { Form, FormSelect, FormGroup, Button, Card, CardBody, CardTitle, CardSubtitle, CardImg, Progress } from "shards-react";
 
-
 import {
     Table,
     Pagination,
@@ -84,7 +83,6 @@ class MoviePage extends React.Component {
         this.setState({ age: event.target.value })
     }
 
-
     updateSearchResults() {
         getTopRated(this.state.gender, this.state.age).then(res => {
             this.setState({ moviesResults: res.results })
@@ -96,7 +94,6 @@ class MoviePage extends React.Component {
     }
 
     componentDidMount() {
-
         getMovie(this.state.selectedMovieId).then(res => { 
             this.setState({ selectedMovieDetails: res.results[0] })
         })
@@ -105,7 +102,6 @@ class MoviePage extends React.Component {
             console.log(res.results)
             this.setState({ moviesResults: res.results })
         })
-
     }
 
     render() {
@@ -145,6 +141,7 @@ class MoviePage extends React.Component {
             };
         }} dataSource={this.state.moviesResults} columns={movieColumns} pagination={{ pageSizeOptions:[5, 10], defaultPageSize: 5, showQuickJumper:true }}/>
                 </div>
+
                 {this.state.selectedMovieDetails ? <div style={{ width: '70vw', margin: '0 auto', marginTop: '2vh' }}>
                     <Card>
                         <CardBody>
@@ -161,12 +158,14 @@ class MoviePage extends React.Component {
                             Director: <h6>{this.state.selectedMovieDetails.director}</h6> 
                             Actors: <h6>{this.state.selectedMovieDetails.actors}</h6> 
                             Description: <h6>{this.state.selectedMovieDetails.description}</h6> 
-         
+          
                             <Button pill theme="danger" onClick={() => this.updateWatchlist(this.state.selectedMovieDetails.imdb_id, this.state.selectedMovieDetails.title)}> Like it!</Button> 
                         </CardBody>
+
                     </Card>                   
                 </div> : null}
                 <Divider />
+
             </div>
         )
     }
