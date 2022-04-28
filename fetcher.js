@@ -28,8 +28,8 @@ const getTopRated = async (Gender, Age) => {
     return res.json()
 }
 
-const addToWatchlist = async (id, title) => {
-    var res = await fetch(`http://${config.server_host}:${config.server_port}/addWatchlist?id=${id}&title=${title}`, {
+const addToWatchlist = async (id, title, director) => {
+    var res = await fetch(`http://${config.server_host}:${config.server_port}/addWatchlist?id=${id}&title=${title}&director=${director}`, {
         method: 'GET',
     })
     return res.json()
