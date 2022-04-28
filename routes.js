@@ -282,7 +282,8 @@ async function top_rated_by_demographics(req, res) {
 async function add_to_watchlist(req, res) {
     const movieID = req.query.id;
     const movieTitle= req.query.title;
-    connection.query(`INSERT INTO Watchlist (imdb_id, title) VALUES ('${movieID}', '${movieTitle}');`, 
+    const movieDirector = req.query.director;
+    connection.query(`INSERT INTO Watchlist (imdb_id, title, director) VALUES ('${movieID}', '${movieTitle}', ${movieDirector}');`, 
     function (error, results, fields) {
         if (error) {
             console.log(error)
@@ -291,7 +292,6 @@ async function add_to_watchlist(req, res) {
             res.json({ results: results })
         }
     });
-}
 }
 
 // Route 9
