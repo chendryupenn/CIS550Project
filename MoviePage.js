@@ -89,8 +89,8 @@ class MoviePage extends React.Component {
         })
     }
 
-    updateWatchlist(MovieId, MovieTitle) {
-        addToWatchlist(MovieId, MovieTitle)
+    updateWatchlist(MovieId, MovieTitle, Director) {
+        addToWatchlist(MovieId, MovieTitle, Director)
     }
 
     componentDidMount() {
@@ -159,7 +159,7 @@ class MoviePage extends React.Component {
                             Actors: <h6>{this.state.selectedMovieDetails.actors}</h6> 
                             Description: <h6>{this.state.selectedMovieDetails.description}</h6> 
           
-                            <Button pill theme="danger" onClick={() => this.updateWatchlist(this.state.selectedMovieDetails.imdb_id, this.state.selectedMovieDetails.title)}> Like it!</Button> 
+                            <Button pill theme="danger" onClick={() => this.updateWatchlist(this.state.selectedMovieDetails.imdb_id, this.state.selectedMovieDetails.title, this.state.selectedMovieDetails.director)}> Like it!</Button> 
                         </CardBody>
 
                     </Card>                   
